@@ -1,0 +1,20 @@
+Package: stuff
+Type: Package
+Title: A collection of utility function
+Description: A collection of utility function used across project.
+Version: 0.0.1
+Date: 2024-11-12
+Authors@R:
+    person(
+        given = "Jiří",
+        family = "Moravec",
+        role = c("aut", "cre"),
+        email = "jiri.c.moravec@gmail.com"
+        )
+Encoding: UTF-8
+License: GPL (>= 3)
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports:
+Suggests:
+
