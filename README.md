@@ -18,7 +18,7 @@ mpd::install_github("J-Moravec/stuff")
 
 ## Dependencies
 
-`stuff` is trying to be dependency freedependencies are required.
+`stuff` is trying to be dependency free.
 
 ## Usage
 
