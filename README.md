@@ -26,6 +26,9 @@ mpd::install_github("J-Moravec/stuff")
 # use library
 library(stuff)
 
-# use the :: notation
+# or use the :: notation
 stuff::strpad(c("a", "aa", "aaa"))
+
+# pipe friendly functions:
+iris |> select("Species")
 ```
