@@ -1,4 +1,4 @@
-TEST_SET("test.data.frame sorts data.frames", {
+TEST_SET("sort.data.frame sorts data.frames", {
     d = data.frame(
         "a" = 1:3,
         "b" = c("a", "b", "c"),
