@@ -9,3 +9,8 @@ all_identical = function(...){
         }
     TRUE
     }
+
+
+dir.remove = function(x, force = FALSE){
+    unlink(x, recursive = TRUE, force = force)
+    }
