@@ -37,8 +37,8 @@
 #' }
 #'
 #' # with strict = FALSE: bp ignored here, hp still renamed
-#' rename(mtcars, c("bp, "hp"),
-#'        c("foo, "horsepower"), strict = FALSE)
+#' rename(mtcars, c("bp", "hp"),
+#'        c("foo", "horsepower"), strict = FALSE)
 #'
 #'
 #' # first argumnet passed to `f` is names(x)
@@ -53,7 +53,7 @@ rename = function(x, old, new, strict = TRUE){
 
     match = match(old, names(x))
     if(strict && anyNA(match))
-        stop("Some names not in object:", to.string(old[is.na(match)]))
+        stop("Some names not in object:", toString(old[is.na(match)]))
 
     names(x)[match[!is.na(match)]] = new[!is.na(match)]
 

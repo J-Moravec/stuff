@@ -54,8 +54,8 @@ rename(mtcars, "bp", "horsepower") # bp not in names(mtcars)
 }
 
 # with strict = FALSE: bp ignored here, hp still renamed
-rename(mtcars, c("bp, "hp"),
-       c("foo, "horsepower"), strict = FALSE)
+rename(mtcars, c("bp", "hp"),
+       c("foo", "horsepower"), strict = FALSE)
 
 
 # first argumnet passed to `f` is names(x)
