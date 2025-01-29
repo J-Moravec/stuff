@@ -1,4 +1,4 @@
-library("stuff")
+library("stuff", warn.conflicts = FALSE)
 source("helpers/mutr.r")
 source("helpers/test-mutr.r")
 source("helpers/utils.r")
