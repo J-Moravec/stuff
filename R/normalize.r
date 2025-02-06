@@ -98,7 +98,7 @@ normalize = function(x, select, where, FUN = `-`, STATS = `mean`, SPLIT = NULL, 
             .normalize, y, where = where, STATS = STATS, SIMPLIFY = FALSE,
             MoreArgs = c(list(select = select, FUN = FUN), ...)
             )
-        y = unsplit(y, SPLIT)
+        y = .unsplit(y, SPLIT)
         y = y[row.names(x),]
         # fix conversion to character
         attr(y, "row.names") = attr(x, "row.names")
@@ -153,3 +153,30 @@ standardize = function(x, select, where, SPLIT = NULL, center = TRUE, scale = TR
 
     x
     }
+
+
+# rbind that preserve names
+.rbind = function(x){
+    # move row.names to temp column, merge the data.frame and recover the row.names
+    # note that row.names does character conversion
+    # using the attr(x, "row.names") instead
+    y = lapply(x, function(z){z["__rownames__"] = attr(z, "row.names"); z})
+    y = do.call(rbind, y)
+    attr(y, "row.names") = y[["__rownames__"]]
+    y["__rownames__"] = NULL
+    y
+    }
+
+# Variant of .unsplit using a sentinel variable and rbid
+.unsplit = function(x, split){
+    if(inherits(split, "formula"))
+        stop("split cannot be formula, please convert formula with \".formula2varlist()\"")
+
+    # Using sentinel value
+    n = lapply(x, nrow) |> unlist() |> sum()
+    s = seq_len(n)
+    s = split(s, split, drop = TRUE) |> unlist()
+    y = .rbind(x)
+    y[order(s),]
+    }
+
