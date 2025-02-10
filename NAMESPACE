@@ -2,6 +2,7 @@
 
 S3method(divide,data.frame)
 S3method(divide,default)
+S3method(divide,matrix)
 S3method(replace2,data.frame)
 S3method(replace2,default)
 S3method(sort,data.frame)

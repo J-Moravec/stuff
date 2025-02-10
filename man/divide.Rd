@@ -4,35 +4,41 @@
 \alias{divide}
 \alias{divide.default}
 \alias{divide.data.frame}
+\alias{divide.matrix}
 \title{Divide an object into equal parts}
 \usage{
 divide(x, k, ...)
 
 \method{divide}{default}(x, k, ...)
 
-\method{divide}{data.frame}(x, k, ...)
+\method{divide}{data.frame}(x, k, dim = 1, ...)
+
+\method{divide}{matrix}(x, k, dim = 1, ...)
 }
 \arguments{
 \item{x}{an object to be split}
 
 \item{k}{number of objects}
 
-\item{...}{arguments to be passed to or from methods (currently unused)}
+\item{...}{arguments to be passed to or from methods}
+
+\item{dim}{a dimension along which the division will be made, e.g.,
+for \code{matrix} and \code{data.frame} 1 (default) divides along rows and 2 along columns}
 }
 \value{
 a list of \code{k} objects derived from \code{x}, see details
 }
 \description{
-Divide an object such as vectors, lists, or data.frames into an \code{k} number of parts.
+Divide an object such as vectors, lists, matrices or data.frames into an \code{k} number of parts.
 }
 \details{
 If the object of size \code{n} is divisible by \code{k} such that \code{n \%\% k = 0},
 the object is split into \code{k} parts of equal size of size \code{n \%/\% k}.
 Otherwise, the first \code{n \%\% k} parts will have size \code{n \%/\% k + 1}.
 
-Currently, the only non-vector object that is supported are data.frames,
-which are split along their rows.
-Matrices and arrays are treated as vectors.
+The object inheriting from \code{matrix} or \code{data.frame} can be divided along their
+rows (\code{dim = 1}) or columns (\code{dim = 2}).
+Arrays are currently unsupported and treated as vectors.
 }
 \examples{
 l = letters[1:10]
@@ -48,15 +54,10 @@ divide(l, 4)
 # list are vectors
 divide(as.list(l), 3)
 
-# data.frame
+# matrices and data.frames
 divide(iris, 3)
-
-# matrices and arrays are treated as vectors
-mat = as.matrix(head(iris))
-identical(
-  divide(mat, 3),
-  divide(as.vector(mat), 3)
-  )
+divide(iris, 3, 2)
+divide(as.matrix(iris), 3)
 
 arr = array(letters, c(2,2,2)) # array 2x2x2
 identical(

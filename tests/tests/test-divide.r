@@ -15,10 +15,6 @@ TEST_SET("divide splits objects equally", {
         lapply(divide(letters[1:10], 3), as.list)
         ))
 
-    # matrix is a vector
-    mat = as.matrix(iris)
-    TEST(identical(divide(mat, 3), divide(as.vector(mat), 3)))
-
     # array is a vector
     arr = array(letters, c(2, 2, 2))
     TEST(identical(divide(arr, 3), divide(as.vector(arr), 3)))
@@ -31,6 +27,28 @@ TEST_SET("divide splits objects equally", {
             "1" = df[1:2, ],
             "2" = df[3:4, ],
             "3" = df[5, ]
+            )
+        ))
+
+    # unless dim is specified
+    TEST(identical(
+        divide(df, 3, 2),
+        list(
+            "1" = df[, 1:2],
+            "2" = df[, 3:4],
+            "3" = df[, 5, drop = FALSE]
+            )
+        ))
+
+
+    # matrix is a data.frame
+    mat = as.matrix(df)
+    TEST(identical(
+        divide(mat, 3),
+        list(
+            "1" = mat[1:2, ],
+            "2" = mat[3:4, ],
+            "3" = mat[5, , drop = FALSE]
             )
         ))
     })
