@@ -44,6 +44,15 @@
 #'
 #' @export
 select = function(x, i, drop = TRUE){
+    if(!is.numeric(i) && !is.character(i))
+        stop("Invalid index value, must be numeric or character")
+
+    if(is.numeric(i) && any(i > length(x)))
+        stop("Undefined columns selected.")
+
+    if(is.character(i) && any(!i %in% names(x)))
+        stop("Undefined columns selected.")
+
     if(length(i) == 1 && drop){
         x[i][[1]]
         } else {

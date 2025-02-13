@@ -1,35 +1,34 @@
-TEST_SET("select and deselect correctly subsets", {
-    x = data.frame(a = 1, b = 2, c = 3)
+TEST_SET("select, deselect and fill correctly subsets", {
+    d = data.frame(a = 1, b = 2, c = 3)
+    v = (seq_along(letters) |> setNames(letters))[1:3]
+    l = as.list(v)
 
-    TEST(identical(select(x, "a"), x$a))
-    TEST(identical(select(x, "a", TRUE), x$a))
-    TEST(identical(select(x, "a", FALSE), x["a"]))
-    TEST(identical(select(x, c("a","b")), x[c("a","b")]))
+    # select on data.frame
+    for(o in list(d, v, l)){
+        msg = paste0("is not TRUE for ", class(o))
+        TEST(identical(select(o, "a"), o[["a"]]), msg)
+        TEST(identical(select(o, "a", TRUE), o[["a"]]), msg)
+        TEST(identical(select(o, "a", FALSE), o["a"]), msg)
+        TEST(identical(select(o, c("a","b")), o[c("a", "b")]), msg)
 
-    TEST(identical(select(x, 1), x[[1]]))
-    TEST(identical(select(x, 1, TRUE), x[[1]]))
-    TEST(identical(select(x, 1, FALSE), x[1]))
-    TEST(identical(select(x, c(1, 2)), x[c(1,2)]))
+        TEST(identical(select(o, 1), o[[1]]), msg)
+        TEST(identical(select(o, 1, TRUE), o[[1]]), msg)
+        TEST(identical(select(o, 1, FALSE), o[1]), msg)
+        TEST(identical(select(o, c(1, 2)), o[c(1, 2)]), msg)
 
-    TEST(identical(deselect(x, "a"), x[c("b","c")]))
-    TEST(identical(deselect(x, c("a", "b")), x["c"])) # won't drop
-    TEST(identical(deselect(x, 1), x[2:3]))
-    TEST(identical(deselect(x, 1:2), x[3]))
+        # deselect
+        TEST(identical(deselect(o, "a"), o[c("b","c")]), msg)
+        TEST(identical(deselect(o, c("a", "b")), o["c"]), msg) # won't drop
+        TEST(identical(deselect(o, 1), o[2:3]), msg)
+        TEST(identical(deselect(o, 1:2), o[3]), msg)
 
-    TEST_ERROR(select(x, "d"))
-    TEST_ERROR(select(x, c("c","d")))
-    TEST_ERROR(select(x, 4))
-    TEST_ERROR(select(x, 3:4))
+        # missing elements: index / name out of bound
+        msg = paste0("does not signal an error for ", class(o))
+        TEST_ERROR(select(o, "d"), msg)
+        TEST_ERROR(select(o, c("c", "d")), msg)
+        TEST_ERROR(select(o, 4), msg)
+        TEST_ERROR(select(o, 3:4), msg)
+        }
 
-    # abridged tests on vector
-    x = seq_along(letters) |> setNames(letters)
 
-    TEST(identical(select(x, "a"), 1L))
-    TEST(identical(select(x, "a", FALSE), c("a" = 1L)))
-    TEST(identical(select(x, 1), 1L))
-    TEST(identical(select(x, c("a","b")), x[1:2]))
-
-    # selecting non-existing elements for vectors returns NA
-    TEST(identical(select(x, "aa"), NA_integer_))
-    TEST(identical(select(x, 30), NA_integer_))
     })
