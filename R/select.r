@@ -1,6 +1,17 @@
 #' Select and deselect elements
 #'
-#' Pipe-friendly subsetting functions useable for vectors, lists, and data.frames.
+#' Pipe-friendly subsetting functions for vectors, lists, and data.frames.
+#'
+#' `select()` will subset a `vector`, `list` or a `data.frame` based on character or
+#' numeric indices `i`. In many ways it behaves like `[`, but it is safer in the sense
+#' that non-existing indices will always throw error (`[` returns `NA` instead)
+#'
+#' `deselect()` is the opposite of `select()`, it removes elements specified by `i`
+#' from the object. Non-existing elements are ignored.
+#'
+#' `fill()` is a variant of `select()` that works with non-existing elements as well.
+#' If `i` is in `x`, it the output is identical to `select()`, otherwise it fills
+#' the missing elements with `NA` (for vectors or data.frames) or `NULL` (for lists).
 #'
 #' @param x a vector, list, data.frame, or other object for which `[` and `[[` are defined.
 #' @param i a numeric index or a character vector if `x` is named;
@@ -69,4 +80,34 @@ deselect = function(x, i){
         }
 
     x[-i]
+    }
+
+
+#' @rdname select
+#' @export
+fill = function(x, i, drop = TRUE){
+    if(!is.numeric(i) && !is.character(i))
+        stop("Invalid index value, must be numeric or character")
+
+
+    if(is.character(i)){
+        s = i[!i %in% names(x)]
+        x[s] = if(inherits(x, "list")) list(NULL) else NA
+        }
+
+    if(is.numeric(i)){
+        n = length(x)
+        s = i > n
+        if(any(s)){
+            m = seq(n + 1, max(i))
+            x[m] = if(inherits(x, "list")) list(NULL) else NA
+            names(x)[m] = paste0("V", m)
+            }
+        }
+
+    if(length(i) == 1 && drop){
+        x[i][[1]]
+        } else {
+        x[i]
+        }
     }

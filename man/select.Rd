@@ -3,11 +3,14 @@
 \name{select}
 \alias{select}
 \alias{deselect}
+\alias{fill}
 \title{Select and deselect elements}
 \usage{
 select(x, i, drop = TRUE)
 
 deselect(x, i)
+
+fill(x, i, drop = TRUE)
 }
 \arguments{
 \item{x}{a vector, list, data.frame, or other object for which \code{[} and \code{[[} are defined.}
@@ -24,7 +27,19 @@ just select that column.}
 an array-like object derived by subsetting \code{x}
 }
 \description{
-Pipe-friendly subsetting functions useable for vectors, lists, and data.frames.
+Pipe-friendly subsetting functions for vectors, lists, and data.frames.
+}
+\details{
+\code{select()} will subset a \code{vector}, \code{list} or a \code{data.frame} based on character or
+numeric indices \code{i}. In many ways it behaves like \code{[}, but it is safer in the sense
+that non-existing indices will always throw error (\code{[} returns \code{NA} instead)
+
+\code{deselect()} is the opposite of \code{select()}, it removes elements specified by \code{i}
+from the object. Non-existing elements are ignored.
+
+\code{fill()} is a variant of \code{select()} that works with non-existing elements as well.
+If \code{i} is in \code{x}, it the output is identical to \code{select()}, otherwise it fills
+the missing elements with \code{NA} (for vectors or data.frames) or \code{NULL} (for lists).
 }
 \examples{
 select(iris, "Species")
