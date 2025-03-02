@@ -102,18 +102,9 @@ strip_chart = function(
     n = length(groups)
     if (!n) stop("invalid first argument")
 
-    if(!is.list(col)){
-        col = as.list(rep_len(col, n))
-        }
-
-    if(!is.list(bg)){
-        bg = as.list(rep_len(bg, n))
-        }
-
-    if(!is.list(lwd)){
-        lwd = as.list(rep_len(lwd, n))
-        }
-
+    col = as.list(rep_len(col, n))
+    bg = as.list(rep_len(bg, n))
+    lwd = as.list(rep_len(lwd, n))
     col.mean = rep_len(col.mean, n)
 
     if (!missing(group.names)){
@@ -243,10 +234,7 @@ strip_hist = function(
     x = if(is.list(x)) x else list(x)
     n = length(x)
 
-    if(!is.list(col)){
-        col = rep_len(col, n)
-        col = as.list(col)
-        }
+    col = as.list(rep_len(col, n))
 
     xx = unlist(x)
     xx = xx[is.finite(xx)]
